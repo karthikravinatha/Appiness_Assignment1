@@ -25,4 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('DemoAPP.urls')),
     path('indMart/', include('IndiaMartAPP.urls')),
+    path('relations/', include('RelationsAPP.urls')),
+    path('pdfParser/', include('PdfParserAPP.urls')),
 ]

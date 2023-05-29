@@ -17,7 +17,8 @@ class StudentViewset(APIView):
         self.page_no = 1
 
     def post(self, request, *args, **kwargs):
-        data = json.loads(request.POST["data"])
+        data = json.loads(request.body)
+        data = data["data"]
         try:
             model = StudentModel.objects.create(**data)
             self.cache_key = self.cache_key + str(model.id)
@@ -28,12 +29,13 @@ class StudentViewset(APIView):
             redis_obj["last_updated_on"] = model.last_updated_on
             if not redis_ob.has_cache_key(self.cache_key):
                 redis_ob.put_obj_in_cache(self.cache_key, redis_obj)
-            return JsonResponse(build_response(status.HTTP_201_CREATED, {'id': model.id}))
+            return JsonResponse(build_response(status.HTTP_200_OK, {'id': model.id}))
         except Exception as ex:
-            return JsonResponse({'message': 'Email ID already Exists'}, status=403)
+            return JsonResponse({'message': str(ex)}, status=403)
 
     def get(self, request):
         pk = request.GET.get("id")
+        # if pk:
         self.rec_per_page = request.GET.get("rec_per_page", self.rec_per_page)
         self.page_no = request.GET.get("page_no", self.page_no)
         redis_ob = RedisCacheManager()
@@ -53,39 +55,44 @@ class StudentViewset(APIView):
             paginator = Paginator(sorted_data, self.rec_per_page)
             page = paginator.get_page(self.page_no)
             return JsonResponse(build_response(status.HTTP_200_OK, list(page)), safe=False)
+    # else:
 
-    def patch(self, request, *args, **kwargs):
-        data = request.POST.get("data", None)
-        data = json.loads(data)
-        pk = data.get("id", None)
-        try:
-            instance: StudentModel = StudentModel.objects.get(id=pk)
-        except Exception as ex:
-            raise ex
 
-        for key, value in data.items():
-            setattr(instance, key, value)
-        instance.save()
-        returned_data = model_to_dict(instance)
-        returned_data["created_on"] = instance.created_on
-        returned_data["last_updated_on"] = instance.last_updated_on
-        self.cache_key = self.cache_key + str(pk)
-        redis_ob = RedisCacheManager()
-        redis_ob.connect()
-        if redis_ob.has_cache_key(self.cache_key):
-            redis_ob.put_obj_in_cache(self.cache_key, returned_data)
-        return JsonResponse(build_response(status.HTTP_200_OK, returned_data))
+#     return JsonResponse(build_response(status.HTTP_400_BAD_REQUEST, ""))
 
-    def delete(self, request, *args, **kwargs):
-        pk = request.POST.get("id", None)
+def patch(self, request, *args, **kwargs):
+    data = request.POST.get("data", None)
+    data = json.loads(data)
+    pk = data.get("id", None)
+    try:
         instance: StudentModel = StudentModel.objects.get(id=pk)
-        instance.delete()
-        self.cache_key = self.cache_key + pk
-        redis_ob = RedisCacheManager()
-        redis_ob.connect()
-        if redis_ob.has_cache_key(self.cache_key):
-            redis_ob.delete_key(self.cache_key)
-        return JsonResponse(build_response(status.HTTP_200_OK, {"id": pk}))
+    except Exception as ex:
+        raise ex
+
+    for key, value in data.items():
+        setattr(instance, key, value)
+    instance.save()
+    returned_data = model_to_dict(instance)
+    returned_data["created_on"] = instance.created_on
+    returned_data["last_updated_on"] = instance.last_updated_on
+    self.cache_key = self.cache_key + str(pk)
+    redis_ob = RedisCacheManager()
+    redis_ob.connect()
+    if redis_ob.has_cache_key(self.cache_key):
+        redis_ob.put_obj_in_cache(self.cache_key, returned_data)
+    return JsonResponse(build_response(status.HTTP_200_OK, returned_data))
+
+
+def delete(self, request, *args, **kwargs):
+    pk = request.POST.get("id", None)
+    instance: StudentModel = StudentModel.objects.get(id=pk)
+    instance.delete()
+    self.cache_key = self.cache_key + pk
+    redis_ob = RedisCacheManager()
+    redis_ob.connect()
+    if redis_ob.has_cache_key(self.cache_key):
+        redis_ob.delete_key(self.cache_key)
+    return JsonResponse(build_response(status.HTTP_200_OK, {"id": pk}))
 
 
 class StudentListView(APIView):

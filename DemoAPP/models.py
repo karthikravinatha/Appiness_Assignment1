@@ -13,3 +13,11 @@ class StudentModel(models.Model):
     last_updated_on = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     objects = models.Manager()
+
+
+    # def save(self, *args, **kwargs):
+    #     aaa = self.__class__.objects.count()
+    #     bbb = self.__class__.objects.first().pk
+    #     if self.__class__.objects.count():
+    #         self.pk = self.__class__.objects.first().pk
+    #     super().save(*args, **kwargs)

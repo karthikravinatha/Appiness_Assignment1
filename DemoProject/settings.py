@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'DemoAPP',
     'IndiaMartAPP',
+    'RelationsAPP',
     'rest_framework',
 ]
 
