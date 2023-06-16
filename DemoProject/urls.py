@@ -30,4 +30,5 @@ urlpatterns = [
     path('translater/', include('TranslateAPP.urls')),
     path('translater/', include('TranslateAPP.urls')),
     path('oneToOne/', include('OneToOneAPP.urls')),
+    path('foreignKey/', include('foreignKeyRelnAPP.urls')),
 ]
