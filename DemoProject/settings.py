@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'RelationsAPP',
     'rest_framework',
     'TranslateAPP',
+    'OneToOneAPP',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'DemoProject.custom_middleware.CustomMiddleware',
+    # 'DemoProject.custom_middleware.CustomMiddleware',
 ]
 
 ROOT_URLCONF = 'DemoProject.urls'

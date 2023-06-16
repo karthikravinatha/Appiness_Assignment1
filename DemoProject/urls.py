@@ -28,4 +28,6 @@ urlpatterns = [
     path('relations/', include('RelationsAPP.urls')),
     path('pdfParser/', include('PdfParserAPP.urls')),
     path('translater/', include('TranslateAPP.urls')),
+    path('translater/', include('TranslateAPP.urls')),
+    path('oneToOne/', include('OneToOneAPP.urls')),
 ]
