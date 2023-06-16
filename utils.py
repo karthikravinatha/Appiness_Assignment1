@@ -2,6 +2,7 @@
 import os
 import re
 import time
+from django.http import JsonResponse
 from textwrap import wrap
 
 import PyPDF2
@@ -63,6 +64,13 @@ def build_response(status_code, data):
         return {"response_code": status_code, "total_records": len(data), "data": data}
     else:
         return {"response_code": status_code, "total_records": 1, "data": data}
+
+
+def build_json_response(status_code, data):
+    if isinstance(data, list):
+        return JsonResponse({"response_code": status_code, "total_records": len(data), "data": data}, safe=False)
+    else:
+        return JsonResponse({"response_code": status_code, "total_records": 1, "data": data}, safe=False)
 
 
 def generate_pdf(input_data):
