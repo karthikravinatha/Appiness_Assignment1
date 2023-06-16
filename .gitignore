@@ -1,0 +1,6 @@
+/wmt14.en-fr.fconv-py/
+/trained_model/
+/TranslateAPP/nllb_model.json
+/TranslateAPP/nllb_model.txt
+/TranslateAPP/nllb_token.txt
+/app_venv/

@@ -27,6 +27,6 @@ soupsieve==2.4.1
 sqlparse==0.4.4
 trio==0.22.0
 trio-websocket==0.10.2
-urllib3==2.0.2
+urllib3==1.26.6
 webencodings==0.5.1
 wsproto==1.2.0

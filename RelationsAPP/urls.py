@@ -3,5 +3,5 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('api/', views.RelationsView.as_view())
+    path('api/', views.RelationsView.as_view(), name='relations')
 ]

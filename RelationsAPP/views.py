@@ -7,6 +7,7 @@ from .models import RelationsHeaderModel
 from .models import RelationsDetailModel
 from utils import build_response
 from django.db.transaction import commit, set_rollback
+from django.contrib import messages
 import json
 
 
@@ -31,5 +32,9 @@ class RelationsView(APIView):
             return JsonResponse(build_response(status.HTTP_500_INTERNAL_SERVER_ERROR, str(Ex)))
 
     def get(self, request, *args, **kwargs):
-        data = RelationsDetailModel.object.filter(invoice_header_id=2)
+        print("View is called")
+        # raise Exception("Exception triggered")
+        # data = RelationsHeaderModel.objects.filter()
+        data = RelationsHeaderModel.objects.all()
+        # raise Exception
         return JsonResponse(build_response(status.HTTP_200_OK, list(data.values())))

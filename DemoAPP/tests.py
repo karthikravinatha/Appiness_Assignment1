@@ -22,8 +22,8 @@ class StudentCreateApiViewTestCase(APITestCase):
                 "gender": "Male"
             }
         }, format='json')
-        print("test")
-        print(response.content)
+        # print("test")
+        # print(response.content)
         res_dict = json.loads(response.content.decode('utf-8'))
         self.test_session["inserted_id"] = res_dict["data"]["id"]
         self.test_session.save()
@@ -34,6 +34,14 @@ class StudentCreateApiViewTestCase(APITestCase):
         # print("GET", type(self.test_session))
         # print("GET", self.test_session.GET.get("inserted_id"))
         response = self.client.get(self.url, {"id": 1})
-        print("test - GET")
-        print(response.content)
+        # print("test - GET")
+        # print(response.content)
+        self.assertEquals(response.status_code, status.HTTP_200_OK)
+
+    def test_student_get_list(self):
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, status.HTTP_200_OK)
+
+    def test_student_get_list_pagination(self):
+        response = self.client.get(self.url, {"rec_per_page": 1, "page_no": 1})
         self.assertEquals(response.status_code, status.HTTP_200_OK)

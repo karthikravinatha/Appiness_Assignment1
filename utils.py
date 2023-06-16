@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import re
 import time
@@ -18,6 +19,7 @@ from reportlab.lib import colors
 from reportlab.lib.colors import blue, black
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from datetime import datetime
+import unicodedata
 
 from DemoProject.settings import BASE_DIR
 
@@ -90,8 +92,8 @@ def generate_pdf(input_data):
             y = height - top_margin
             # y -= 0.2 * inch
             ct = 1
-
-        pdf_canvas.drawString(left_margin, y, row)
+        if not row == "  " or row == "\n":
+            pdf_canvas.drawString(left_margin, y, unicodedata.normalize("NFKD", str(row)))
         left_margin += width
         ct += 1
 

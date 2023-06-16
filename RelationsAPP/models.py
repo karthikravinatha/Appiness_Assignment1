@@ -6,6 +6,7 @@ class RelationsHeaderModel(models.Model):
     invoice_date = models.DateField()
     created_on = models.DateTimeField(auto_now_add=True)
     last_updated_on = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
     objects = models.Manager()
 
     # class Meta:
@@ -20,7 +21,7 @@ class RelationsDetailModel(models.Model):
     price = models.FloatField()
     tax = models.FloatField()
     total = models.FloatField()
-    object = models.Manager()
+    objects = models.Manager()
 
 
 
